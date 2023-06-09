@@ -3,7 +3,7 @@ from datetime import datetime
 from utils import config
 from utils.basic import Basic
 from utils.log import logger
-
+import time
 
 class Visa(Basic):
 
@@ -24,6 +24,7 @@ class Visa(Basic):
         self.click_el(name="category")
         self.click_el(xpath="//select[@name='category']/option[contains(text(),'{}')]".format(category))
         self.wait_for_secs()
+        time.sleep(45)
         self.click_el(name='checkDate')
         logger.info("select centre finished")
 
@@ -37,15 +38,18 @@ class Visa(Basic):
     def login(self):
         try:
             # self.click_el(xpath="//a[text() = 'Log in']")
-            element = self.driver.find_element_by_xpath("//a[contains(text(),'Log in')]")
-            element.click()
-            self.wait_for_secs()
+            #element = self.driver.find_element_by_xpath("//a[contains(text(),'Log in')]")
+            #element.click()
+            self.wait_for_secs(5)
             self.enter_message(config.EMAIL, name='email')
             self.wait_for_secs()
             self.enter_message(config.PASSWORD, name='password')
             self.wait_for_secs()
-            self.click_el(name="login")
-            logger.info("log in finished")
+            #self.click_el(name="login")
+            self.wait_for_secs(45)
+            time.sleep(45)
+            #self.click_el(name="login")
+            logger.info("assuming log in finished")
         except Exception as e:
             logger.error(e)
 

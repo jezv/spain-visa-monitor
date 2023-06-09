@@ -37,4 +37,4 @@ class Basic:
         element.send_keys(message)
 
     def wait_for_secs(self, secs=1):
-        WebDriverWait(self.driver, secs)
+        WebDriverWait(self.driver, timeout=secs)

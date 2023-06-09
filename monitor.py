@@ -28,6 +28,8 @@ def monitor():
         driver = init_driver()
         visa = Visa(driver)
         visa.go_to_appointment_page()
+        logger.info(f"PLEASE MANUALLY LOGIN")
+        pyttsx3.speak(f"please manually login")
         visa.login()
         visa.go_to_book_appointment()
         visa.select_centre(config.CENTER[0], config.CENTER[1], config.CENTER[2])
@@ -35,15 +37,20 @@ def monitor():
             dates = visa.check_available_dates()
             if dates:
                 logger.info(f"DAY AVAILABLE: {dates}")
-                pyttsx3.speak(f"say day available {dates}")
-                time.sleep(120)
+                for i in range(30):
+                    pyttsx3.speak(f"day available {dates}")
+                time.sleep(420)
             else:
                 logger.info(f"NO DAY AVAILABLE..")
+                #pyttsx3.speak(f"no days, retrying")
                 time.sleep(config.TIMEOUT)
                 driver.refresh()
 
     except Exception as e:
+        #raise e
         logger.error(f'Monitor runtime error. {e}')
+        pyttsx3.speak("error encountered.  check window just in case it worked")
+        time.sleep(420)
         monitor()
 
 
